@@ -3,50 +3,46 @@ class Neighbors:
     player = ""
     player_number = 0
     player_position = []
+    player_row = 0
+    player_column = 0
+    board_bounds = 0
+
+
 
     def __init__(self, board, player, player_number, player_position):
         self.board = board
         self.player = player
         self.player_number = player_number
         self.player_position = player_position
+        self.player_row = player_position[0]
+        self.player_column = player_position[1]
+        self.board_bounds = len(board) - 1
+
 
     def get_number_position(self):
-        position = ""
-        player_row = player_position[0]
-        player_column = player_position[1]
-        if player_row in [0, len(board) - 1] and player_column in [0, len(board) - 1]:
-            position = "corners"
-            neighbors = get_orientation(
-                player_number, player_position, position)
-        elif (player_row not in [0, len(board) - 1] and
-              player_column not in [0, len(board) - 1]):
-            position = "middle"
-            neighbors = get_neighbors(player_number, player_position, position)
+        if self.player_row in [0, self.board_bounds] and self.player_column in [0, self.board_bounds]:
+            return "corners"
+        elif (self.player_row not in [0, self.board_bounds] and
+              self.player_column not in [0, self.board_bounds]):
+            return "middle"
         else:
-            position = "bounds"
-            neighbors = get_orientation(position)
-        return neighbors
+            return "bounds"
 
-    def get_orientation(self, position):
-        player_row = player_position[0]
-        player_column = player_position[1]
-        direction = ""
-        orientation = ""
-        location = ""
-        if player_row == 0:
-            direction = "up"
-        elif player_row == len(board) - 1:
-            direction = "down"
-        if player_column == 0:
-            orientation = "left"
-        elif player_column == len(board) - 1:
-            orientation = "right"
-        location += direction + " " + orientation
-        return get_neighbors(position, location)
+    def get_orientation(self):
+        vertical_orientation = ""
+        horizontal_orientation = ""
+        if self.player_row == 0:
+            vertical_orientation = "up"
+        elif self.player_row == self.board_bounds:
+            vertical_orientation = "down"
+        if self.player_column == 0:
+            horizontal_orientation = "left"
+        elif self.player_column == self.board_bounds:
+            horizontal_orientation = "right"
+        return vertical_orientation + " " + horizontal_orientation
 
-    def get_neighbors(self, position, number_location=0):
-        neighbors = []
-        formulas = {'middle': [[-1, -1], [-1, 0], [-1, 1],
+    def select_distance_formula(self, position, number_location=0):
+        distance_formulas = {'middle': [[-1, -1], [-1, 0], [-1, 1],
                                [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]],
                     'corners': {'up left': [[0, 1], [1, 0], [1, 1]],
                                 'down left': [[-1, 0], [-1, 1], [0, 1]],
@@ -58,10 +54,15 @@ class Neighbors:
                                          [0, -1], [0, 1]],
                                ' right': [[-1, -1], [-1, 0], [0, -1],
                                           [1, -1], [1, 0]]}}
-        formula_to_use = formulas[position]
+        formula_to_use = distance_formulas[position]
         if isinstance(formula_to_use, type(dict())):
             formula_to_use = formula_to_use[number_location]
-        for step in formula_to_use:
-            neighbors.append([axis[1] + step[axis[0]] for
-                              axis in enumerate(player_position)])
+        return formula_to_use
+
+    def get_neighbors(self, formula_to_use):
+        neighbors = []
+        for neighbor_distance in formula_to_use:
+            neighbor_coordinates = [position_axis[1] + neighbor_distance[position_axis[0]] for
+                              position_axis in enumerate(self.player_position)]
+            neighbors.append(neighbor_coordinates)
         return neighbors
