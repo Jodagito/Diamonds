@@ -1,12 +1,12 @@
 import os
 from random import randint
-from diamonds.game.neighbors import get_number_position
+from diamonds.game.neighbors import Neighbors
 from diamonds.game.board import board_creation, show_board
 
-board = []
-victories = {}
-points = {1: 0, 2: 0}
 players_numbers = {1: str(randint(1, 5)), 2: str(randint(1, 5))}
+points = {1: 0, 2: 0}
+victories = {}
+board = board_creation()
 
 
 def menu():
