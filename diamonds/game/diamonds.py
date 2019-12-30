@@ -92,12 +92,6 @@ def start_game():
     return start_game()
 
 
-def claim_victory(player):
-    print("¡Congratulations, player " + str(player) + " has won!\n")
-    input("Press a key to play again...")
-    return menu()
-
-
 def play_turn(player, players_positions):
     print("Number for player " + str(player) +
           " is " + str(players_numbers[player]) + "\n")
@@ -120,6 +114,12 @@ def play_turn(player, players_positions):
           str(points[player]) + "\n")
     input("Press a key to continue...\n")
     return
+
+
+def claim_victory(player):
+    print("¡Congratulations, player " + str(player) + " has won!\n")
+    input("Press a key to play again...")
+    return menu()
 
 
 def calculate_score(player_position, player_number, player, neighbors):
