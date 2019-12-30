@@ -85,31 +85,10 @@ def start_game():
     show_board()
     players_positions = {1: [], 2: []}
     for player in range(1, 3):
-        print("Number for player " + str(player) +
-              " is " + str(players_numbers[player]) + "\n")
-        players_positions[player].append(int(input(
-            "Insert the row number where you want to move ")) - 1)
-        players_positions[player].append(int(input(
-            "Insert the column number where you want to move ")) - 1)
-        row = players_positions[player][0]
-        column = players_positions[player][1]
-        if - 1 in players_positions[player]:
-            player = (1 - player) + 2
-            return claim_victory(player)
-        board[row][column] = players_numbers[player]
-        near_numbers = get_number_position(board,
-                                           players_positions[player],
-                                           players_numbers[player], player)
-        calculate_score(players_positions[player], players_numbers[player],
-                        player, near_numbers)
-        board[row][column] = players_numbers[player]
-        print("Player " + str(player) + " score: " +
-              str(points[player]) + "\n")
-        input("Press a key to continue...\n")
+        play_turn(player, players_positions)
         show_board()
-        players_numbers[player] = str(
-            board[players_positions[player][0]]
-            [players_positions[player][1]])
+        players_numbers[player] = board[players_positions[player]
+                                        [0]][players_positions[player][1]]
     return start_game()
 
 
@@ -119,23 +98,52 @@ def claim_victory(player):
     return menu()
 
 
-def calculate_score(player_position, player_number, player, near_numbers):
-    for neighbor in near_numbers:
-        if (int(player_number) == board[neighbor[0]][neighbor[1]]):
-            points[player] += 1
-            board[neighbor[0]][neighbor[1]] = randint(1, 5)
-            near_numbers = get_number_position(board,
-                                               [neighbor[0],
-                                                neighbor[1]],
-                                               player_number, player)
-            calculate_score(player_position, player_number,
-                            player, near_numbers)
+def play_turn(player, players_positions):
+    print("Number for player " + str(player) +
+          " is " + str(players_numbers[player]) + "\n")
+    players_positions[player].append(int(input(
+        "Insert the row number where you want to move ")) - 1)
+    players_positions[player].append(int(input(
+        "Insert the column number where you want to move ")) - 1)
+    row = players_positions[player][0]
+    column = players_positions[player][1]
+    if -1 in players_positions[player]:
+        player = (1 - player) + 2
+        return claim_victory(player)
+    board[row][column] = players_numbers[player]  # Is duplicated
+    neighbors = Neighbors(
+        board, player, players_numbers[player], players_positions[player])
+    calculate_score(players_positions[player], players_numbers[player],
+                    player, neighbors)
+    # board[row][column] = players_numbers[player]  # Must be fixed
+    print("Player " + str(player) + " score: " +
+          str(points[player]) + "\n")
+    input("Press a key to continue...\n")
     return
+
+
+def calculate_score(player_position, player_number, player, neighbors):
+    player_number_neighbors = get_player_number_neighbors(neighbors)
+    for number_neighbor in player_number_neighbors:
+        print(board[number_neighbor[0]][number_neighbor[1]])
+        if int(player_number) == board[number_neighbor[0]][number_neighbor[1]]:
+            print(number_neighbor)
+            points[player] += 1
+            board[number_neighbor[0]][number_neighbor[1]] = randint(1, 5)
+            neighbors.update_attributes(
+                board, player, player_number, player_position)
+            calculate_score(player_position, player_number,
+                            player, neighbors)
+    return
+
+
+def get_player_number_neighbors(neighbors):
+    number_position = neighbors.get_number_position()
+    number_orientation = neighbors.get_orientation()
+    formula_to_use = neighbors.select_distance_formula(
+        number_position, number_orientation)
+    return neighbors.get_neighbors(formula_to_use)
 
 
 def clear_terminal():
     return os.system('cls' if os.name == 'nt' else 'clear')
-
-
-board = board_creation()
-menu()
