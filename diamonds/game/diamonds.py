@@ -31,7 +31,7 @@ def menu():
     print("*", end="")
     print(end="\n  ")
     selected_option = input("                             ")
-    main_menu_verify_option(selected_option)
+    return main_menu_verify_option(selected_option)
 
 
 def main_menu_verify_option(selected_option):
@@ -44,11 +44,22 @@ def main_menu_verify_option(selected_option):
     elif selected_option in available_options[1]:
         pass
     elif selected_option in available_options[2]:
-        input("¡Come back soon!")
+        return input("¡Come back soon!")
     else:
         print("Error: This isn't a valid option.\n")
         input("Press a key to continue...")
         return menu()
+
+
+def game_menu():
+    clear_terminal()
+    print("         Game Menu")
+    print("To continue select an option\n")
+    print("         1. Player vs Player")
+    print("         2. Player vs Computer")
+    print("         3. Go back\n")
+    selected_option = input()
+    return game_menu_option_verifier(selected_option)
 
 
 def game_menu_option_verifier(selected_option):
@@ -67,17 +78,6 @@ def game_menu_option_verifier(selected_option):
         print("Error: This isn't a valid option.\n")
         input("Press a key to continue...")
         return game_menu()
-
-
-def game_menu():
-    clear_terminal()
-    print("         Game Menu")
-    print("To continue select an option\n")
-    print("         1. Player vs Player")
-    print("         2. Player vs Computer")
-    print("         3. Go back\n")
-    selected_option = input()
-    game_menu_option_verifier(selected_option)
 
 
 def start_game():
