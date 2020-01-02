@@ -137,6 +137,11 @@ def ask_players_for_rows_and_columns(player):
     players_positions[player].append(int(input(
         "Insert the column number where you want to move ")) - 1)
     return
+
+
+def update_player_number(player, new_number):
+    players_numbers[player] = new_number
+    return
 def claim_victory(player):
     print("¡Congratulations, player " + str(player) + " has won!\n")
     input("Press a key to play again...")
