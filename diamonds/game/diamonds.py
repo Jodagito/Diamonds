@@ -99,7 +99,10 @@ def run_game():
     return run_game()
 
 
-def play_turn(player, players_positions):
+def set_players_positions():
+    players_positions[1] = []
+    players_positions[2] = []
+    return
     print("Number for player " + str(player) +
           " is " + str(players_numbers[player]) + "\n")
     players_positions[player].append(int(input(
