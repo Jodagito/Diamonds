@@ -30,6 +30,9 @@ def print_main_menu():
     print(end="\n       ")
     print("*", end="")
     print(end="\n  ")
+    return receive_main_menu_option()
+
+def receive_main_menu_option():
     selected_option = input("                             ")
     return main_menu_verify_option(selected_option)
 
