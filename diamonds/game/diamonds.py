@@ -34,21 +34,23 @@ def print_main_menu():
 
 def receive_main_menu_option():
     selected_option = input("                             ")
-    return main_menu_verify_option(selected_option)
+    return verify_main_menu_selection(selected_option)
 
-
-def main_menu_verify_option(selected_option):
-    clear_terminal()
-    available_options = [["1", "1.", "Play", "1. Play"],
-                         ["2", "2.", "Highscores", "2. Highscores"],
-                         ["3", "3.", "Exit", "3. Exit"]]
-    if selected_option in available_options[0]:
-        return game_menu()
-    elif selected_option in available_options[1]:
-        pass
-    elif selected_option in available_options[2]:
-        return input("¡Come back soon!")
-    else:
+def verify_main_menu_selection(selected_option):
+    try:
+        clear_terminal()
+        available_options = [["1", "1.", "Play", "1. Play"],
+                            ["2", "2.", "Highscores", "2. Highscores"],
+                            ["3", "3.", "Exit", "3. Exit"]]
+        if selected_option in available_options[0]:
+            return print_game_menu()
+        elif selected_option in available_options[1]:
+            pass
+        elif selected_option in available_options[2]:
+            return input("¡Come back soon!")
+        else:
+            raise ValueError
+    except ValueError:
         print("Error: This isn't a valid option.\n")
         input("Press a key to continue...")
         return print_main_menu()
