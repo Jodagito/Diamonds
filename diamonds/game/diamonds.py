@@ -9,7 +9,7 @@ victories = {}
 board = board_creation()
 
 
-def menu():
+def print_main_menu():
     clear_terminal()
     print(" *************")
     print("***************", end="              Main Menu")
@@ -48,7 +48,7 @@ def main_menu_verify_option(selected_option):
     else:
         print("Error: This isn't a valid option.\n")
         input("Press a key to continue...")
-        return menu()
+        return print_main_menu()
 
 
 def game_menu():
@@ -73,7 +73,7 @@ def game_menu_option_verifier(selected_option):
     elif selected_option in available_options[1]:
         pass
     elif selected_option in available_options[2]:
-        return menu()
+            return print_main_menu()
     else:
         print("Error: This isn't a valid option.\n")
         input("Press a key to continue...")
@@ -119,7 +119,7 @@ def play_turn(player, players_positions):
 def claim_victory(player):
     print("¡Congratulations, player " + str(player) + " has won!\n")
     input("Press a key to play again...")
-    return menu()
+    return print_main_menu()
 
 
 def calculate_score(player_position, player_number, player, neighbors):
