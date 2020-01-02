@@ -56,15 +56,19 @@ def verify_main_menu_selection(selected_option):
         return print_main_menu()
 
 
-def game_menu():
+def print_game_menu():
     clear_terminal()
     print("         Game Menu")
     print("To continue select an option\n")
     print("         1. Player vs Player")
     print("         2. Player vs Computer")
     print("         3. Go back\n")
+    return receive_game_menu_option()
+
+
+def receive_game_menu_option():
     selected_option = input()
-    return game_menu_option_verifier(selected_option)
+    return verify_game_menu_selection(selected_option)
 
 
 def game_menu_option_verifier(selected_option):
