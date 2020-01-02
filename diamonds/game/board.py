@@ -19,3 +19,8 @@ def show_board():
             print(board[row][column], end=" ")
         print()
     print()
+
+
+def update_cell(cell_to_update, new_number):
+    cell_to_update = new_number
+    return
