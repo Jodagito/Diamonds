@@ -4,7 +4,8 @@ from diamonds.game.neighbors import Neighbors
 from diamonds.game.board import board_creation, show_board
 
 players_numbers = {1: str(randint(1, 5)), 2: str(randint(1, 5))}
-points = {1: 0, 2: 0}
+players_positions = {}
+scores = {1: 0, 2: 0}
 victories = {}
 board = board_creation()
 
@@ -103,26 +104,30 @@ def set_players_positions():
     players_positions[1] = []
     players_positions[2] = []
     return
+
+
+def play_turn(player):
+    clear_terminal()
+    show_board()
     print("Number for player " + str(player) +
           " is " + str(players_numbers[player]) + "\n")
-    players_positions[player].append(int(input(
-        "Insert the row number where you want to move ")) - 1)
-    players_positions[player].append(int(input(
-        "Insert the column number where you want to move ")) - 1)
+    ask_players_for_rows_and_columns(player)
     row = players_positions[player][0]
     column = players_positions[player][1]
-    if -1 in players_positions[player]:
-        player = (1 - player) + 2
-        return claim_victory(player)
-    board[row][column] = players_numbers[player]  # Is duplicated
+    actual_round_number = players_numbers[player]
+    update_player_number(player, board[row][column])
+    verify_player_surrender(player)
+    update_cell(board[row][column], actual_round_number)
     neighbors = Neighbors(
         board, player, players_numbers[player], players_positions[player])
     calculate_score(players_positions[player], players_numbers[player],
                     player, neighbors)
-    # board[row][column] = players_numbers[player]  # Must be fixed
     print("Player " + str(player) + " score: " +
-          str(points[player]) + "\n")
+          str(scores[player]) + "\n")
     input("Press a key to continue...\n")
+    if player == 1:
+        player = 2
+        play_turn(player)
     return
 
 
