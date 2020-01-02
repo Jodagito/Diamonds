@@ -92,16 +92,11 @@ def verify_game_menu_selection(selected_option):
         return print_game_menu()
 
 
-def start_game():
-    clear_terminal()
-    show_board()
-    players_positions = {1: [], 2: []}
-    for player in range(1, 3):
-        play_turn(player, players_positions)
-        show_board()
-        players_numbers[player] = board[players_positions[player]
-                                        [0]][players_positions[player][1]]
-    return start_game()
+def run_game():
+    player = 1
+    set_players_positions()
+    play_turn(player)
+    return run_game()
 
 
 def play_turn(player, players_positions):
