@@ -131,6 +131,12 @@ def play_turn(player):
     return
 
 
+def ask_players_for_rows_and_columns(player):
+    players_positions[player].append(int(input(
+        "Insert the row number where you want to move ")) - 1)
+    players_positions[player].append(int(input(
+        "Insert the column number where you want to move ")) - 1)
+    return
 def claim_victory(player):
     print("¡Congratulations, player " + str(player) + " has won!\n")
     input("Press a key to play again...")
