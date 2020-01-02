@@ -159,10 +159,8 @@ def claim_victory(player):
 def calculate_score(player_position, player_number, player, neighbors):
     player_number_neighbors = get_player_number_neighbors(neighbors)
     for number_neighbor in player_number_neighbors:
-        print(board[number_neighbor[0]][number_neighbor[1]])
         if int(player_number) == board[number_neighbor[0]][number_neighbor[1]]:
-            print(number_neighbor)
-            points[player] += 1
+            scores[player] += 1
             board[number_neighbor[0]][number_neighbor[1]] = randint(1, 5)
             neighbors.update_attributes(
                 board, player, player_number, player_position)
