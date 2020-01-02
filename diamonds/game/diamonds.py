@@ -142,6 +142,14 @@ def ask_players_for_rows_and_columns(player):
 def update_player_number(player, new_number):
     players_numbers[player] = new_number
     return
+
+
+def verify_player_surrender(player):
+    if -1 in players_positions[player]:
+            player = (1 - player) + 2
+            return claim_victory(player)
+
+
 def claim_victory(player):
     print("¡Congratulations, player " + str(player) + " has won!\n")
     input("Press a key to play again...")
