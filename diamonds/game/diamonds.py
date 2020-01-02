@@ -71,22 +71,25 @@ def receive_game_menu_option():
     return verify_game_menu_selection(selected_option)
 
 
-def game_menu_option_verifier(selected_option):
-    clear_terminal()
-    available_options = [["1", "1.", "Player vs Player", "1. Player vs Player"],
-                         ["2", "2.", "Player vs Computer",
-                          "2. Player vs Computer"],
-                         ["3", "3.", "Go back", "3. Go back"]]
-    if selected_option in available_options[0]:
-        return start_game()
-    elif selected_option in available_options[1]:
-        pass
-    elif selected_option in available_options[2]:
+def verify_game_menu_selection(selected_option):
+    try:
+        clear_terminal()
+        available_options = [["1", "1.", "Player vs Player", "1. Player vs Player"],
+                            ["2", "2.", "Player vs Computer",
+                            "2. Player vs Computer"],
+                            ["3", "3.", "Go back", "3. Go back"]]
+        if selected_option in available_options[0]:
+            return run_game()
+        elif selected_option in available_options[1]:
+            pass
+        elif selected_option in available_options[2]:
             return print_main_menu()
-    else:
+        else:
+            raise ValueError
+    except ValueError:
         print("Error: This isn't a valid option.\n")
         input("Press a key to continue...")
-        return game_menu()
+        return print_game_menu()
 
 
 def start_game():
