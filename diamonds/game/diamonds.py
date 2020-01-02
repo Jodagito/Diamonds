@@ -1,7 +1,7 @@
 import os
 from random import randint
 from diamonds.game.neighbors import Neighbors
-from diamonds.game.board import board_creation, show_board
+from diamonds.game.board import board_creation, show_board, update_cell
 
 players_numbers = {1: str(randint(1, 5)), 2: str(randint(1, 5))}
 players_positions = {}
